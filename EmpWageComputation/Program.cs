@@ -15,34 +15,45 @@ namespace EmpWageComputation
             const int PART_TIME = 1;
             const int FULL_TIME = 2;
             const int EMP_RATE_PER_HR = 20;
-            int empHrs = 0, empWage = 0;
+            const int MAX_WORKING_DAYS = 20;
+            int empHrs = 0, empWage = 0 ,totalWage = 0,day = 0;
 
+            //UC1 Employee is present or not
             Random random = new Random();
             int empInput = random.Next(0,3);
 
-            //UC4 Employee wage using switch case
-            switch(empInput)
+            //UC5 Using for loop
+            for(day = 1; day <= MAX_WORKING_DAYS; day++) 
             {
-                case FULL_TIME:
-                    empHrs = 8;
-                    Console.WriteLine("\nEmployee is FullTime Present");
-                    break;
+                //UC4 Employee wage using switch case
+                switch (empInput)
+                {
+                    case FULL_TIME:
+                        empHrs = 8;
+                        Console.WriteLine("\nEmployee is FullTime Present");
+                        break;
 
-                case PART_TIME:
-                    empHrs = 4;
-                    Console.WriteLine("\nEmployee is PartTime Present");
-                    break;
+                    case PART_TIME:
+                        empHrs = 4;
+                        Console.WriteLine("\nEmployee is PartTime Present");
+                        break;
 
-                default:
-                    empHrs = 0;
-                    Console.WriteLine("\nEmployee is Absent");
-                    break;
-
+                    default:
+                        empHrs = 0;
+                        Console.WriteLine("\nEmployee is Absent");
+                        break;
+                }
+                //UC2 Employee daily wage 
+                empWage = EMP_RATE_PER_HR * empHrs;
+                totalWage = totalWage + empWage;
+                Console.WriteLine("day {0} employee wage  is :{1} " ,day, empWage);
             }
-            //UC2 Employee daily wage 
-            empWage = EMP_RATE_PER_HR * empHrs;
-            Console.WriteLine("Employee daily wage is : "+empWage);
+            
+            Console.WriteLine("Total Wage for 20 days is :{0} ", totalWage);
             Console.ReadLine();
+
         }
+
+
     }
 }
