@@ -11,18 +11,25 @@ namespace EmpWageComputation
         static void Main(string[] args)
         {
             Console.WriteLine("\nWelcome to Employee Wage Computation");
-            const int IS_PRESENT = 0;
+            
+            const int PART_TIME = 1;
+            const int FULL_TIME = 2;
             const int EMP_RATE_PER_HR = 20;
             int empHrs = 0, empWage = 0;
 
             Random random = new Random();
-            int empInput = random.Next(0,2);
+            int empInput = random.Next(0,3);
 
             //UC1 Check employee is present or absent
-            if (IS_PRESENT == empInput)
+            if (FULL_TIME == empInput)
             {
-                Console.WriteLine("\nEmployee is Present");
                 empHrs = 8;
+                Console.WriteLine("\nEmployee is Full Time Present");
+            }
+            else if (PART_TIME == empInput)
+            {
+                empHrs = 4;
+                Console.WriteLine("\nEmployee is Part Time Present");
             }
             else
             {
