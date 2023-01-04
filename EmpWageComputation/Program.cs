@@ -1,46 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmpWageComputation
 {
-    internal class CompanyWage
+    internal class CompanyWageBuilder
     {
-        
+
         public const int PART_TIME = 1;
         public const int FULL_TIME = 2;
 
-         public string company;
-         public int empRatePerHour, numOfWorkingDays,maxHoursPerMonth,totalEmpWage;
-         
+        List<CompanyEmpWage> list;
+        public CompanyWageBuilder()
+        {
+            list = new List<CompanyEmpWage>();
+        }
 
-        public CompanyWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
-        { 
-                this.company = company;
-                this.empRatePerHour = empRatePerHour;
-                this.numOfWorkingDays = numOfWorkingDays;
-                this.maxHoursPerMonth = maxHoursPerMonth;
+        public void AddComapnyDetailsIntoArray(string company, int empRatePerHrs, int maxWorkingDays, int maxWorkingHrs)
+        {
+            CompanyEmpWage comp = new CompanyEmpWage(company, empRatePerHrs, maxWorkingDays, maxWorkingHrs);
+
+            list.Add(comp);
+        }
+
+        public void IterateOverCompany()
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                int totalEmpWage = CalculateWage(list[i]);
+                list[i].SetTotalWage(totalEmpWage);
+                Console.WriteLine(list[i].ToString());
+            }
         }
         static void Main(string[] args)
         {
-            CompanyWage dell = new CompanyWage("Dell", 32, 25, 70);
-            dell.CalculateWage();
-            Console.WriteLine(dell.ToString());
-            CompanyWage hp = new CompanyWage("HP", 30, 25, 75);
-            hp.CalculateWage();
-            Console.WriteLine(hp.ToString());
-            CompanyWage lenova = new CompanyWage("Lenova", 28, 25, 60);
-            lenova.CalculateWage();
-            Console.WriteLine(lenova.ToString());
+            Console.WriteLine("\nWelcome to employee wages computation");
+            CompanyWageBuilder builder = new CompanyWageBuilder();
+            builder.AddComapnyDetailsIntoArray("Dell", 32, 25, 70);
+            builder.AddComapnyDetailsIntoArray("HP", 30, 25, 75);
+            builder.AddComapnyDetailsIntoArray("Lenova", 28, 25, 60);
+            builder.IterateOverCompany();
             Console.ReadLine();
         }
-        public void CalculateWage()
+        public int CalculateWage(CompanyEmpWage companyDetails)
         {
 
-            int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-            while (totalEmpHrs <= this.maxHoursPerMonth && totalWorkingDays <= this.numOfWorkingDays)
+            int empHrs = 0, empWage = 0, totalEmpHrs = 0, totalWorkingDays = 0, totalEmpWages = 0;
+            while (totalEmpHrs <= companyDetails.maxWorkingHrs && totalWorkingDays <= companyDetails.maxWorkingDays)
             {
                 totalWorkingDays++;
                 Random random = new Random();
@@ -51,18 +56,19 @@ namespace EmpWageComputation
                     case FULL_TIME:
                         empHrs = 8;
                         break;
-                        case PART_TIME:
-                            empHrs = 4;
-                            break;
-                        default:
-                            empHrs = 0;
-                            break;
+                    case PART_TIME:
+                        empHrs = 4;
+                        break;
+                    default:
+                        empHrs = 0;
+                        break;
                 }
-                totalEmpHrs += empHrs;
-                Console.WriteLine("Day : " + totalWorkingDays + " & Emp Hours : " + empHrs);
+                empWage = companyDetails.empRatePerHrs * empHrs;
+                totalEmpHrs = totalEmpHrs + empHrs;
+                totalEmpWages = totalEmpHrs * companyDetails.empRatePerHrs;
+
             }
-            totalEmpWage = totalEmpHrs * this.empRatePerHour;
-            Console.WriteLine("Total Emp Wage for Company : " + company + " is : " + totalEmpWage);
+            return totalEmpWages;
         }
     }
-}
+}    
