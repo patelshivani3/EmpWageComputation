@@ -9,6 +9,7 @@ namespace EmpWageComputation
         public const int PART_TIME = 1;
         public const int FULL_TIME = 2;
 
+        //Using ArrayList
         List<CompanyEmpWage> list;
         Dictionary<string, CompanyEmpWage> dic;
         public CompanyWageBuilder()
