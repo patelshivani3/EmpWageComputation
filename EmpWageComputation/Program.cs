@@ -3,16 +3,18 @@ using System.Collections.Generic;
 
 namespace EmpWageComputation
 {
-    internal class CompanyWageBuilder
+    internal class CompanyWageBuilder:ICompanyWageBuilder
     {
 
         public const int PART_TIME = 1;
         public const int FULL_TIME = 2;
 
         List<CompanyEmpWage> list;
+        Dictionary<string, CompanyEmpWage> dic;
         public CompanyWageBuilder()
         {
             list = new List<CompanyEmpWage>();
+            dic = new Dictionary<string, CompanyEmpWage>();
         }
 
         public void AddComapnyDetailsIntoArray(string company, int empRatePerHrs, int maxWorkingDays, int maxWorkingHrs)
@@ -20,6 +22,12 @@ namespace EmpWageComputation
             CompanyEmpWage comp = new CompanyEmpWage(company, empRatePerHrs, maxWorkingDays, maxWorkingHrs);
 
             list.Add(comp);
+            dic.Add(company, comp);
+        }
+
+        public int GetTotalWageBasedOnCompany(string companyName)
+        {
+            return dic[companyName].totalEmpWage;
         }
 
         public void IterateOverCompany()
@@ -33,12 +41,13 @@ namespace EmpWageComputation
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nWelcome to employee wages computation");
+            Console.WriteLine("\nWelcome to employee wages computation\n");
             CompanyWageBuilder builder = new CompanyWageBuilder();
             builder.AddComapnyDetailsIntoArray("Dell", 32, 25, 70);
             builder.AddComapnyDetailsIntoArray("HP", 30, 25, 75);
             builder.AddComapnyDetailsIntoArray("Lenova", 28, 25, 60);
             builder.IterateOverCompany();
+            Console.WriteLine("\nGet total wages using Company Name " + builder.GetTotalWageBasedOnCompany("Dell"));
             Console.ReadLine();
         }
         public int CalculateWage(CompanyEmpWage companyDetails)
